@@ -18,6 +18,7 @@
         <input type="time" id="horaTarea" name="horaTarea" required><br>
         <textarea id="descripcionTarea" name="descripcionTarea" required></textarea><br>
         <button type="submit">Crear Tarea</button>
+        <button type="button" id="actualizarTareas" style="display:none;">Actualizar Tarea</button>
     </form>
 
     <h2>Lista de tareas</h2>
@@ -52,7 +53,8 @@
             tareas.forEach((tarea, index) => {
                 const li = document.createElement("li");
                 li.textContent =  "${tarea.nombre} - ${tarea.fecha} - ${tarea.hora} - ${tarea.descripcion}";   
-                <button onclicck="editarTarea(${index})">Editar tarea</button>
+                <button onclick="editarTarea(${index})">Editar tarea</button>;
+                <button onclick="borrarTarea(${index})">Borrar</button>;
                 listaTareas.appendChild(li); 
             });
         }
@@ -90,6 +92,13 @@
             document.getElementById("formTarea").querySelector("button[type='submit']").style.display = "inline";
             listaTareas();
         });
+
+        function borrarTarea(index) {
+            let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+            tareas.splice(index, 1);
+            localStorage.setItem("tareas", JSON.stringify(tareas));
+            listaTareas();
+        }
 
         document.addEventListener("DOMContentLoaded", mostrarTareas);
     </script>
