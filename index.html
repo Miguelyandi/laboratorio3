@@ -8,6 +8,7 @@
 <body>
     <h1>Administrador de tareas</h1>
 
+
     <form id="formTarea">
         <label for="nombreTarea">Nombre de la tarea</label>
         <input type="text" id="nombreTarea" name="nombreTarea" required><br>
@@ -19,6 +20,8 @@
         <button type="submit">Crear Tarea</button>
     </form>
 
+    <h2>Lista de tareas</h2>
+    <ul id="listaTareas"></ul>
     <script>
         document.getElementById("formTarea").addEventListener("submit", function(event) {
             event.preventDefault();
@@ -40,7 +43,55 @@
 
             alert("Tarea creada exitosamente");
             document.getElementById("formTarea").reset();
+            mostrarTareas();
         });
+        function mostrarTareas() {
+            const listaTareas = document.getElementById("listaTareas");
+            listaTareas.innerHTML = "";
+            const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+            tareas.forEach((tarea, index) => {
+                const li = document.createElement("li");
+                li.textContent =  "${tarea.nombre} - ${tarea.fecha} - ${tarea.hora} - ${tarea.descripcion}";   
+                <button onclicck="editarTarea(${index})">Editar tarea</button>
+                listaTareas.appendChild(li); 
+            });
+        }
+
+        function editarTarea(index) {
+            const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+            const tarea = tareas[index];
+            document.getElementById("nombreTarea").value = tarea.nombre;
+            document.getElementById("fechaTarea").value = tarea.fecha;
+            document.getElementById("horaTarea").value = tarea.hora;
+            document.getElementById("descripcionTarea").value = tarea.descripcion;
+            document.getElementById("actualizarTarea").style.display = "inline";
+            document.getElementById("formTarea").querySelector("button[type='submit']").style.display = "none";
+        }
+
+        document.getElementById("actualizarTarea").addEventListener("click", function() {
+            const nombreTarea = document.getElementById("nombreTarea").value;
+            const fechaTarea = document.getElementById("fechaTarea").value;
+            const horaTarea = document.getElementById("horaTarea").value;
+            const descripcionTarea = document.getElementById("descripcionTarea").value;
+
+            const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+            tareas[index] = {
+                nombre: nombreTarea,
+                fecha: fechaTarea,
+                hora: horaTarea,
+                descripcion: descripcionTarea
+            };
+
+            localStorage.setItem("tareas", JSON.stringify(tareas));
+
+            alert("Tarea actualizada exitosamente");
+            document.getElementById("formTarea").reset();
+            document.getElementById("actualizarTarea").style.display = "none";
+            document.getElementById("formTarea").querySelector("button[type='submit']").style.display = "inline";
+            listaTareas();
+        });
+
+        document.addEventListener("DOMContentLoaded", mostrarTareas);
     </script>
     
 </body>
