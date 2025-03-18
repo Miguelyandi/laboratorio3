@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de tareas</title>
+</head>
+<body>
+    <h1>Administrador de tareas</h1>
+
+    <form id="formTarea">
+        <label for="nombreTarea">Nombre de la tarea</label>
+        <input type="text" id="nombreTarea" name="nombreTarea" required><br>
+        <label for="fechaTarea">Fecha de la tarea</label>
+        <input type="date" id="fehaTarea" name="fechaTarea" required><br>
+        <label for="horaTarea">Hola de la tarea</label>
+        <input type="time" id="horaTarea" name="horaTarea" required><br>
+        <textarea id="descripcionTarea" name="descripcionTarea" required></textarea><br>
+        <button type="submit">Crear Tarea</button>
+    </form>
+
+    <script>
+        document.getElementById("formTarea").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const nombreTarea = document.getElementById("nombreTarea").value;
+            const fechaTarea = document.getElementById("fechaTarea").value;
+            const horaTarea = document.getElementById("horaTarea").value;
+            const descripcionTarea = document.getElementById("descripcionTarea").value;
+
+            const tarea = {
+                nombre: nombreTarea,
+                fecha: fechaTarea,
+                hora: horaTarea,
+                descripcion: descripcionTarea
+            };
+
+            let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+            tarea.push(tarea);
+            localStorage.setItem("tareas", JSON.stringify(tareas));
+
+            alert("Tarea creada exitosamente");
+            document.getElementById("formTarea").reset();
+        });
+    </script>
+    
+</body>
+</html>
