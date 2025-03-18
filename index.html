@@ -40,7 +40,21 @@
 
             alert("Tarea creada exitosamente");
             document.getElementById("formTarea").reset();
+            mostrarTareas();
         });
+
+        function mostrarTareas() {
+            const listaTarea = document.getElementById("listaTareas");
+            listaTarea.innerHTML = "";
+            const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+            tareas.forEach((tareas, index) => {
+                const li = document.createElement("li");
+                li.textContent =  "${tarea.nombre} - ${tarea.fecha} - ${tarea.hora} - ${tarea.descripcion}";
+                listaTarea.appendChild(li);
+            });
+        }
+
+        document.addEventListener(DOMContentLoaded, mostrarTareas);
     </script>
     
 </body>
